@@ -1,37 +1,47 @@
-import { io } from "socket.io-client";
-
-const socket = io("http://192.168.100.191:3000", {
-  transports: ["websocket"],
-  autoConnect: true,
-});
+const socket = new WebSocket("ws://localhost:3000");
 
 export const socketService = {
   socket,
   sendCartSale: (type: number, quantity: number, totalPrice: number) => {
-    socket.emit("webapp:message", {
-      t: type,
-      q: quantity,
-      m: totalPrice,
-    });
+    socket.send(
+      JSON.stringify({
+        event: "webapp:message",
+        data: {
+          t: type,
+          q: quantity,
+          m: totalPrice,
+        },
+      })
+    );
   },
 
   sendJson: <T>(event: string, data: T) => {
-    socket.emit(event, data);
+    socket.send(
+      JSON.stringify({
+        event,
+        data,
+      })
+    );
   },
 
   // Add connection listeners
   initialize: () => {
-    socket.on("connect", () => {
-      console.log("Connected to server with ID:", socket.id);
-    });
+    socket.onopen = () => {
+      console.log("Connected to server");
+    };
 
-    socket.on("connect_error", (error) => {
+    socket.onerror = (error) => {
       console.error("Connection error:", error);
-    });
+    };
 
-    socket.on("webapp:message", (data) => {
-      console.log("Received message from server:", data);
-    });
+    socket.onmessage = (message) => {
+      try {
+        const parsedMessage = JSON.parse(message.data.toString());
+        console.log("Received message from server:", parsedMessage);
+      } catch (error) {
+        console.error("Error parsing message:", error);
+      }
+    };
   },
 };
 
