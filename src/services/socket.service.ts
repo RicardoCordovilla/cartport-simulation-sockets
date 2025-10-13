@@ -1,5 +1,5 @@
-const socket = new WebSocket("ws://localhost:3000");
-
+const socket = new WebSocket("https://cartport-socket-server-production.up.railway.app");
+// cartport-socket-server-production.up.railway.app
 export const socketService = {
   socket,
   sendCartSale: (type: number, quantity: number, totalPrice: number) => {
