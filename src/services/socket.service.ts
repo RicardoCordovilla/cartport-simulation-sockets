@@ -1,5 +1,7 @@
-const socket = new WebSocket("https://cartport-socket-server-production.up.railway.app");
-// cartport-socket-server-production.up.railway.app
+const SOCKET_URL = import.meta.env.VITE_API_SOCKET_URL;
+
+const socket = new WebSocket(SOCKET_URL);
+
 export const socketService = {
   socket,
   sendCartSale: (type: number, quantity: number, totalPrice: number) => {
