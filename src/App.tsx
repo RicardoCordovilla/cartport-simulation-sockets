@@ -7,10 +7,10 @@ function App() {
     socketService.sendJson("webapp:message", { type: "cash_in", amount });
   };
 
-  const onCardPayment = () => {
-    console.log("Card payment initiated");
-    socketService.sendJson("webapp:message", { type: "card_payment" });
-  };
+  // const onCardPayment = () => {
+  //   console.log("Card payment initiated");
+  //   socketService.sendJson("webapp:message", { type: "card_payment" });
+  // };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -23,7 +23,7 @@ function App() {
         </div>
       </div>
 
-      <div className="flex flex-col items-center space-y-4 mt-8">
+      {/* <div className="flex flex-col items-center space-y-4 mt-8">
         <span className="text-2xl">Pago con tarjeta</span>
         <Button variant="primary" onClick={onCardPayment}>
           Pagar con tarjeta
@@ -49,10 +49,9 @@ function App() {
         >
           Simular pago fallido
         </Button>
-      </div>
+      </div> */}
 
       <div className="flex flex-col items-center space-y-4 mt-8">
-        <span className="text-2xl">Simulación de carros</span>
         <Button
           variant="secondary"
           onClick={() =>
@@ -62,6 +61,19 @@ function App() {
           }
         >
           Retirar COCHE
+        </Button>
+      </div>
+
+      <div className="flex flex-col items-center space-y-4 mt-8">
+        <Button
+          variant="secondary"
+          onClick={() =>
+            socketService.sendJson("webapp:message", {
+              type: "open_machine",
+            })
+          }
+        >
+          Abrir máquina
         </Button>
       </div>
     </div>
