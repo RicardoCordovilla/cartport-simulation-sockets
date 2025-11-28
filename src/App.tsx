@@ -4,7 +4,11 @@ import { Button } from "./shared/ui/Button";
 function App() {
   const handleOnCashIn = (amount: number) => {
     console.log("Cash in:", amount);
-    socketService.sendJson("webapp:message", { type: "cash_in", amount });
+    socketService.sendJson("webapp:message", {
+      type: "cash_in",
+      cash_type: `${amount > 1 ? "bill" : "coin"}`,
+      amount: amount,
+    });
   };
 
   // const onCardPayment = () => {
@@ -69,11 +73,25 @@ function App() {
           variant="secondary"
           onClick={() =>
             socketService.sendJson("webapp:message", {
-              type: "open_machine",
+              type: "opendoor",
             })
           }
         >
           Abrir máquina
+        </Button>
+      </div>
+
+      {/* go to configs page, use socket.service */}
+      <div className="flex flex-col items-center space-y-4 mt-8">
+        <Button
+          variant="secondary"
+          onClick={() =>
+            socketService.sendJson("webapp:message", {
+              type: "go-configs",
+            })
+          }
+        >
+          Ir a configuración
         </Button>
       </div>
     </div>
